@@ -114,6 +114,7 @@
 #define D_HALL_EFFECT "Hall Effect"
 #define D_HOSTNAME "Hostname"
 #define D_HUMIDITY "Humidity"
+#define D_FUELLEVEL "Fuel Level"
 #define D_ILLUMINANCE "Illuminance"
 #define D_IMMEDIATE "immediate"      // Button immediate
 #define D_INDEX "Index"

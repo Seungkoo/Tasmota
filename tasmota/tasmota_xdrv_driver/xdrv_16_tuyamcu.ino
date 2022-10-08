@@ -50,6 +50,7 @@
 #define TUYA_TYPE_VALUE        0x02
 #define TUYA_TYPE_STRING       0x03
 #define TUYA_TYPE_ENUM         0x04
+#define TUYA_TYPE_BITMAP       0x05
 
 #define TUYA_BUFFER_SIZE       256
 
@@ -100,11 +101,11 @@ struct TUYA {
 // #define D_CMND_TUYA_SET_TIMER "SetTimer"
 
 const char kTuyaSensors[] PROGMEM = // List of available sensors (can be expanded in the future)
-//          71              72          73            74            75
-  "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_HUMIDITY "|HumSet|" D_JSON_ILLUMINANCE
+//          71              72          73-fuellevel    74            75
+  "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_FUELLEVEL "|TimeSet|" D_JSON_ILLUMINANCE
 //         76            77             78              79                      80                     81     82     83     84
-  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|TImer4";
-
+//  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|TImer4";
+ "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|Timer4";
 const char kTuyaCommand[] PROGMEM = D_PRFX_TUYA "|"  // Prefix
   D_CMND_TUYA_MCU "|" D_CMND_TUYA_MCU_SEND_STATE "|" D_CMND_TUYARGB "|" D_CMND_TUYA_ENUM "|" D_CMND_TUYA_ENUM_LIST "|TempSetRes";
 
@@ -115,7 +116,6 @@ void (* const TuyaCommand[])(void) PROGMEM = {
 const uint8_t TuyaExcludeCMDsFromMQTT[] PROGMEM = { // don't publish this received commands via MQTT if SetOption66 and SetOption137 is active (can be expanded in the future)
   TUYA_CMD_HEARTBEAT, TUYA_CMD_WIFI_STATE, TUYA_CMD_SET_TIME, TUYA_CMD_UPGRADE_PACKAGE
 };
-
 /*********************************************************************************************\
  * Web Interface
 \*********************************************************************************************/
@@ -826,7 +826,7 @@ void TuyaProcessStatePacket(void) {
         }
         #endif // USE_ENERGY_SENSOR
     }
-    else if (Tuya.buffer[dpidStart + 1] == 1) {  // Data Type 1
+    else if (Tuya.buffer[dpidStart + 1] == 1) {  // Data Type 1 - boolean
 
         if (fnId >= TUYA_MCU_FUNC_REL1 && fnId <= TUYA_MCU_FUNC_REL8) {
           AddLog(LOG_LEVEL_DEBUG, PSTR("TYA: RX Relay-%d --> MCU State: %s Current State:%s"), fnId - TUYA_MCU_FUNC_REL1 + 1, Tuya.buffer[dpidStart + 4]?"On":"Off",bitRead(TasmotaGlobal.power, fnId - TUYA_MCU_FUNC_REL1)?"On":"Off");
@@ -850,7 +850,7 @@ void TuyaProcessStatePacket(void) {
         }
         if (PowerOff) { Tuya.ignore_dimmer_cmd_timeout = millis() + 250; }
       }
-      else if (Tuya.buffer[dpidStart + 1] == 2) {  // Data Type 2
+      else if (Tuya.buffer[dpidStart + 1] == 2) {  // Data Type 2 - Value
         uint32_t packetValue = Tuya.buffer[dpidStart + 4] << 24 | Tuya.buffer[dpidStart + 5] << 16 | Tuya.buffer[dpidStart + 6] << 8 | Tuya.buffer[dpidStart + 7]; // TYpe 2 is a 32 bit integer
         uint8_t dimIndex;
         bool SnsUpdate = false;
@@ -1004,7 +1004,7 @@ void TuyaProcessStatePacket(void) {
         }
 
       }
-      else if (Tuya.buffer[dpidStart + 1] == 4) {  // Data Type 4
+      else if (Tuya.buffer[dpidStart + 1] == 4) {  // Data Type 4 - Enum
         const unsigned char *dpData = (unsigned char*)&Tuya.buffer[dpidStart + 4];
 
         if ((fnId == TUYA_MCU_FUNC_MODESET)) { // Toggle light type
@@ -1430,8 +1430,8 @@ void TuyaSensorsShow(bool json)
   char tempval[5];
   uint8_t res;
 
-  for (uint8_t sensor = TUYA_MCU_FUNC_TEMP; sensor <= TUYA_MCU_FUNC_TIMER4; sensor++) { // Sensors start from fnId 71
-    if (json) {
+ for (uint8_t sensor = TUYA_MCU_FUNC_TEMP; sensor <= TUYA_MCU_FUNC_TIMER4; sensor++) { // Sensors start from fnId 71
+     if (json) {
       if (TuyaGetDpId(sensor) != 0) {
 
         if (!RootName) {
@@ -1468,10 +1468,10 @@ void TuyaSensorsShow(bool json)
                             dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[1], Settings->mbflag2.temperature_set_res), Settings->mbflag2.temperature_set_res, tempval), TempUnit());
             break;
           case 73:
-            WSContentSend_PD(HTTP_SNS_HUM, "", dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[2], Settings->flag2.humidity_resolution), Settings->flag2.humidity_resolution, tempval));
+            WSContentSend_PD(HTTP_SNS_FUELLEVEL, "", dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[2], Settings->flag2.humidity_resolution), Settings->flag2.humidity_resolution, tempval));
             break;
           case 74:
-            WSContentSend_PD(PSTR("{s}" D_HUMIDITY " Set{m}%s " D_UNIT_PERCENT "{e}"),
+            WSContentSend_PD(PSTR("{s}" "Time Set{m}%s " D_UNIT_MINUTE "{e}"),
                             dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[3], Settings->flag2.humidity_resolution), Settings->flag2.humidity_resolution, tempval));
             break;
           case 75:
