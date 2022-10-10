@@ -114,6 +114,9 @@
 #define D_HALL_EFFECT "Hall Effect"
 #define D_HOSTNAME "호스트이름"
 #define D_HUMIDITY "습도"
+#define D_FUELLEVEL "잔여연료량"
+#define D_HEATERSTATE "히터상태"
+#define D_HEATERERROR "히터오류"
 #define D_ILLUMINANCE "조도"
 #define D_IMMEDIATE "immediate"      // Button immediate
 #define D_INDEX "인덱스"

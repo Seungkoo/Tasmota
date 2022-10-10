@@ -102,10 +102,10 @@ struct TUYA {
 
 const char kTuyaSensors[] PROGMEM = // List of available sensors (can be expanded in the future)
 //          71              72          73-fuellevel    74            75
-  "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_FUELLEVEL "|TimeSet|" D_JSON_ILLUMINANCE
+  "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_FUELLEVEL "|TimeSet|" D_JSON_HEATER_STATE
 //         76            77             78              79                      80                     81     82     83     84
 //  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|TImer4";
- "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|Timer4";
+ "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|Timer4";
 const char kTuyaCommand[] PROGMEM = D_PRFX_TUYA "|"  // Prefix
   D_CMND_TUYA_MCU "|" D_CMND_TUYA_MCU_SEND_STATE "|" D_CMND_TUYARGB "|" D_CMND_TUYA_ENUM "|" D_CMND_TUYA_ENUM_LIST "|TempSetRes";
 
@@ -1475,10 +1475,10 @@ void TuyaSensorsShow(bool json)
                             dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[3], Settings->flag2.humidity_resolution), Settings->flag2.humidity_resolution, tempval));
             break;
           case 75:
-            WSContentSend_PD(HTTP_SNS_ILLUMINANCE, "", Tuya.Sensors[4]);
+            WSContentSend_PD(HTTP_SNS_HEATERSTATE, "", Tuya.Sensors[4]);
             break;
           case 76:
-            WSContentSend_PD(PSTR("{s}" D_TVOC "{m}%d " D_UNIT_PARTS_PER_MILLION "{e}"), Tuya.Sensors[5]);
+            WSContentSend_PD(HTTP_SNS_HEATERERROR, "", Tuya.Sensors[5]);
             break;
           case 77:
             WSContentSend_PD(HTTP_SNS_CO2, "", Tuya.Sensors[6]);

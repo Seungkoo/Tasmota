@@ -550,24 +550,24 @@
 //  #define SHELLY_VOLTAGE_MON                     // Add support for reading voltage and current measurment (-0k0 code)
 
 // -- Optional light modules ----------------------
-#define USE_LIGHT                                // Add support for light control
-#define USE_WS2812                               // WS2812 Led string using library NeoPixelBus (+5k code, +1k mem, 232 iram) - Disable by //
+//#define USE_LIGHT                                // Add support for light control
+//#define USE_WS2812                               // WS2812 Led string using library NeoPixelBus (+5k code, +1k mem, 232 iram) - Disable by //
 //  #define USE_WS2812_DMA                         // ESP8266 only, DMA supports only GPIO03 (= Serial RXD) (+1k mem). When USE_WS2812_DMA is enabled expect Exceptions on Pow
   #define USE_WS2812_RMT  0                      // ESP32 only, hardware RMT support (default). Specify the RMT channel 0..7. This should be preferred to software bit bang.
 //  #define USE_WS2812_I2S  0                      // ESP32 only, hardware I2S support. Specify the I2S channel 0..2. This is exclusive from RMT. By default, prefer RMT support
 //  #define USE_WS2812_INVERTED                    // Use inverted data signal
   #define USE_WS2812_HARDWARE  NEO_HW_WS2812     // Hardware type (NEO_HW_WS2812, NEO_HW_WS2812X, NEO_HW_WS2813, NEO_HW_SK6812, NEO_HW_LC8812, NEO_HW_APA106, NEO_HW_P9813)
   #define USE_WS2812_CTYPE     NEO_GRB           // Color type (NEO_RGB, NEO_GRB, NEO_BRG, NEO_RBG, NEO_RGBW, NEO_GRBW)
-#define USE_MY92X1                               // Add support for MY92X1 RGBCW led controller as used in Sonoff B1, Ailight and Lohas
-#define USE_SM16716                              // Add support for SM16716 RGB LED controller (+0k7 code)
-#define USE_SM2135                               // Add support for SM2135 RGBCW led control as used in Action LSC (+0k6 code)
-#define USE_SM2335                               // Add support for SM2335 RGBCW led control as used in SwitchBot Color Bulb (+0k7 code)
-#define USE_BP5758D                              // Add support for BP5758D RGBCW led control as used in some Tuya lightbulbs (+0k8 code)
-#define USE_SONOFF_L1                            // Add support for Sonoff L1 led control
-#define USE_ELECTRIQ_MOODL                       // Add support for ElectriQ iQ-wifiMOODL RGBW LED controller (+0k3 code)
-#define USE_LIGHT_PALETTE                        // Add support for color palette (+0k7 code)
-#define USE_LIGHT_VIRTUAL_CT                     // Add support for Virtual White Color Temperature (+1.1k code)
-#define USE_DGR_LIGHT_SEQUENCE                   // Add support for device group light sequencing (requires USE_DEVICE_GROUPS) (+0k2 code)
+//#define USE_MY92X1                               // Add support for MY92X1 RGBCW led controller as used in Sonoff B1, Ailight and Lohas
+//#define USE_SM16716                              // Add support for SM16716 RGB LED controller (+0k7 code)
+//#define USE_SM2135                               // Add support for SM2135 RGBCW led control as used in Action LSC (+0k6 code)
+//#define USE_SM2335                               // Add support for SM2335 RGBCW led control as used in SwitchBot Color Bulb (+0k7 code)
+//#define USE_BP5758D                              // Add support for BP5758D RGBCW led control as used in some Tuya lightbulbs (+0k8 code)
+//#define USE_SONOFF_L1                            // Add support for Sonoff L1 led control
+//#define USE_ELECTRIQ_MOODL                       // Add support for ElectriQ iQ-wifiMOODL RGBW LED controller (+0k3 code)
+//#define USE_LIGHT_PALETTE                        // Add support for color palette (+0k7 code)
+//#define USE_LIGHT_VIRTUAL_CT                     // Add support for Virtual White Color Temperature (+1.1k code)
+//#define USE_DGR_LIGHT_SEQUENCE                   // Add support for device group light sequencing (requires USE_DEVICE_GROUPS) (+0k2 code)
 //#define USE_LSC_MCSL                             // Add support for GPE Multi color smart light as sold by Action in the Netherlands (+1k1 code)
 
 // -- Counter input -------------------------------
@@ -577,7 +577,7 @@
 //#define USE_ADC_VCC                              // Display Vcc in Power status. Disable for use as Analog input on selected devices
 
 // -- One wire sensors ----------------------------
-#define USE_DS18x20                              // Add support for DS18x20 sensors with id sort, single scan and read retry (+2k6 code)
+//#define USE_DS18x20                              // Add support for DS18x20 sensors with id sort, single scan and read retry (+2k6 code)
 //  #define W1_PARASITE_POWER                      // Optimize for parasite powered sensors
 //  #define DS18x20_USE_ID_ALIAS
 
@@ -838,7 +838,7 @@
 //#define USE_WE517                                // Add support for Orno WE517-Modbus energy monitor (+1k code)
 
 // -- Low level interface devices -----------------
-#define USE_DHT                                  // Add support for DHT11, AM2301 (DHT21, DHT22, AM2302, AM2321) and SI7021 Temperature and Humidity sensor (1k6 code)
+//#define USE_DHT                                  // Add support for DHT11, AM2301 (DHT21, DHT22, AM2302, AM2321) and SI7021 Temperature and Humidity sensor (1k6 code)
 
 //#define USE_MAX31855                             // Add support for MAX31855/MAX6675 K-Type thermocouple sensor using softSPI
 //#define USE_MAX31865                             // Add support for MAX31865 RTD sensors using softSPI
@@ -855,7 +855,7 @@
 // Code impact of IR full protocols is +90k code, 3k mem
 
 // -- IR Remote features - subset of IR protocols --------------------------
-#define USE_IR_REMOTE                            // Send IR remote commands using library IRremoteESP8266 (+4k3 code, 0k3 mem, 48 iram)
+//#define USE_IR_REMOTE                            // Send IR remote commands using library IRremoteESP8266 (+4k3 code, 0k3 mem, 48 iram)
   #define IR_SEND_INVERTED          false        // Invert the output. (default = false) e.g. LED is illuminated when GPIO is LOW rather than HIGH.
                                                  // Setting inverted to something other than the default could easily destroy your IR LED if you are overdriving it.
                                                  // Unless you REALLY know what you are doing, don't change this.
@@ -1046,9 +1046,9 @@
 //  #define ETH_ADDRESS       0                    // [EthAddress] 0 = PHY0 .. 31 = PHY31
 //  #define ETH_CLKMODE       0                    // [EthClockMode] 0 = ETH_CLOCK_GPIO0_IN, 1 = ETH_CLOCK_GPIO0_OUT, 2 = ETH_CLOCK_GPIO16_OUT, 3 = ETH_CLOCK_GPIO17_OUT
 
-#define USE_ADC                                  // Add support for ADC on GPIO32 to GPIO39
+//#define USE_ADC                                  // Add support for ADC on GPIO32 to GPIO39
 
-#define USE_NETWORK_LIGHT_SCHEMES                // Add support for light schemes via DDP (via UDP on port 4048)
+//#define USE_NETWORK_LIGHT_SCHEMES                // Add support for light schemes via DDP (via UDP on port 4048)
 
 //#define USE_SPI                                  // Add support for hardware SPI
 //#define USE_MI_ESP32                             // Add support for ESP32 as a BLE-bridge (+9k2 mem, +292k flash)

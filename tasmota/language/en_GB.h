@@ -115,6 +115,8 @@
 #define D_HOSTNAME "Hostname"
 #define D_HUMIDITY "Humidity"
 #define D_FUELLEVEL "Fuel Level"
+#define D_HEATERSTATE "Heater State"
+#define D_HEATERERROR "Heater Error"
 #define D_ILLUMINANCE "Illuminance"
 #define D_IMMEDIATE "immediate"      // Button immediate
 #define D_INDEX "Index"

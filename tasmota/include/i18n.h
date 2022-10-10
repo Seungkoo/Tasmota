@@ -100,7 +100,11 @@
 #define D_JSON_OTHER_HTTP_ERROR "Other http error"
 #define D_JSON_HSBCOLOR "HSBColor"
 #define D_JSON_HUMIDITY "Humidity"
-#define D_JSON_FUELLEVEL "FuelLevel"
+// SEQ Heater 
+#define D_JSON_FUELLEVEL "FuelLevel"                //SEQ Heater Oil Level
+#define D_JSON_HEATER_STATE "Heater State"          //SEQ Heater Power State
+#define D_JSON_HEATER_ERROR "Heater Error"          //SEQ Heater Error Code
+// End of SEQ Heater
 #define D_JSON_I2CSCAN_DEVICES_FOUND_AT "Device(s) found at"
 #define D_JSON_I2CSCAN_UNKNOWN_ERROR_AT "Unknown error at"
 #define D_JSON_I2CSCAN_NO_DEVICES_FOUND "No devices found"
@@ -917,7 +921,9 @@ const char HTTP_SNS_MILLILITERS[]   PROGMEM = "{s}%s "  D_VOLUME              "{
 const char HTTP_SNS_GAS[]           PROGMEM = "{s}%s "  D_GAS                 "{m}%d " D_UNIT_PERCENT          "LEL{e}";
 const char HTTP_SNS_SOC[]           PROGMEM = "{s}%s "  D_SOC                 "{m}%d " D_UNIT_PERCENT             "{e}";
 const char HTTP_SNS_SOH[]           PROGMEM = "{s}%s "  D_SOH                 "{m}%d " D_UNIT_PERCENT             "{e}";
-const char HTTP_SNS_FUELLEVEL[]     PROGMEM = "{s}%s "  D_FUELLEVEL           "{m}%s " D_UNIT_PERCENT             "{e}";
+const char HTTP_SNS_FUELLEVEL[]     PROGMEM = "{s}%s "  D_FUELLEVEL           "{m}%d " D_UNIT_PERCENT             "{e}";
+const char HTTP_SNS_HEATERSTATE[]   PROGMEM = "{s}%s "  D_HEATERSTATE         "{m}%d "                            "{e}";
+const char HTTP_SNS_HEATERERROR[]   PROGMEM = "{s}%s "  D_HEATERERROR         "{m}%d "                            "{e}";
 #endif  // USE_WEBSERVER
 
 #endif  // _I18N_H_
