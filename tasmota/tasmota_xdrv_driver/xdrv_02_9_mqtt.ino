@@ -796,12 +796,14 @@ void MqttPublishPrefixTopicRulesProcess_P(uint32_t prefix, const char* subtopic)
 }
 
 void MqttPublishTeleSensor(void) {
+  char devicename[20];
   // Publish tele/<device>/SENSOR default ResponseData string with optional retained
   //   then process rules
 #ifdef USE_INFLUXDB
   InfluxDbProcess(1);        // Use a copy of ResponseData
 #endif
-  MqttPublishPrefixTopicRulesProcess_P(TELE, PSTR(D_RSLT_SENSOR), Settings->flag.mqtt_sensor_retain);  // CMND_SENSORRETAIN
+  sprintf_P(devicename, PSTR( "%s/" D_RSLT_SENSOR), SettingsText(SET_DEVICENAME));
+  MqttPublishPrefixTopicRulesProcess_P(TELE, devicename, Settings->flag.mqtt_sensor_retain);  // CMND_SENSORRETAIN
 }
 
 void MqttPublishPowerState(uint32_t device) {

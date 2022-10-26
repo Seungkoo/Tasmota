@@ -1001,9 +1001,11 @@ void MqttPublishSensor(void) {
 }
 
 void MqttPublishTeleperiodSensor(void) {
+  char devicename[20];
   ResponseClear();
   if (MqttShowSensor(true)) {
-    MqttPublishPrefixTopic_P(TELE, PSTR(D_RSLT_SENSOR), Settings->flag.mqtt_sensor_retain);  // CMND_SENSORRETAIN
+    sprintf_P(devicename, PSTR( "%s/" D_RSLT_SENSOR), SettingsText(SET_DEVICENAME));
+    MqttPublishPrefixTopic_P(TELE, devicename, Settings->flag.mqtt_sensor_retain);  // CMND_SENSORRETAIN
     XdrvRulesProcess(1);
   }
 }

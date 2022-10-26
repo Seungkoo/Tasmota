@@ -824,7 +824,7 @@ void TuyaProcessStatePacket(void) {
           AddLog(LOG_LEVEL_DEBUG, PSTR("TYA: Rx ID=%d INV_LEN=%d"), Tuya.buffer[dpidStart], dpDataLen);
         }
         }
-        #endif // USE_ENERGY_SENSOR
+#endif // USE_ENERGY_SENSOR
     }
     else if (Tuya.buffer[dpidStart + 1] == 1) {  // Data Type 1 - boolean
 
@@ -850,10 +850,16 @@ void TuyaProcessStatePacket(void) {
         }
         if (PowerOff) { Tuya.ignore_dimmer_cmd_timeout = millis() + 250; }
       }
-      else if (Tuya.buffer[dpidStart + 1] == 2) {  // Data Type 2 - Value
-        uint32_t packetValue = Tuya.buffer[dpidStart + 4] << 24 | Tuya.buffer[dpidStart + 5] << 16 | Tuya.buffer[dpidStart + 6] << 8 | Tuya.buffer[dpidStart + 7]; // TYpe 2 is a 32 bit integer
+      else if (Tuya.buffer[dpidStart + 1] == 2 || Tuya.buffer[dpidStart + 1] == 4) {  // Data Type 2 - Value
+        uint32_t packetValue;
         uint8_t dimIndex;
         bool SnsUpdate = false;
+
+        if (Tuya.buffer[dpidStart + 1] == 2){
+          packetValue = Tuya.buffer[dpidStart + 4] << 24 | Tuya.buffer[dpidStart + 5] << 16 | Tuya.buffer[dpidStart + 6] << 8 | Tuya.buffer[dpidStart + 7]; // TYpe 2 is a 32 bit integer
+        }else{
+          packetValue = Tuya.buffer[dpidStart + 4];  //for Type4 Enum value - 1 byte
+        }
 
         if ((fnId >= TUYA_MCU_FUNC_TEMP) && (fnId <= TUYA_MCU_FUNC_TIMER4)) {      // Sensors start from fnId 71
           if (packetValue != Tuya.Sensors[fnId-71]) {
@@ -866,6 +872,7 @@ void TuyaProcessStatePacket(void) {
         if (SnsUpdate) {
           char sname[20];
           char tempval[5];
+          char devicename[20];
           uint8_t res;
           bool dont_publish = Settings->flag5.tuyasns_no_immediate;
 
@@ -878,7 +885,7 @@ void TuyaProcessStatePacket(void) {
             if (fnId > 74) {
               res = 0;
             } else if (fnId > 72) {
-              res = Settings->flag2.humidity_resolution;
+              res = 0; // Settings->flag2.humidity_resolution;
             } else if (fnId == 72) {
               res = Settings->mbflag2.temperature_set_res;
             } else {
@@ -890,7 +897,8 @@ void TuyaProcessStatePacket(void) {
             if (dont_publish) {
               XdrvRulesProcess(0);
             } else {
-              MqttPublishPrefixTopicRulesProcess_P(TELE, PSTR(D_CMND_SENSOR));
+              sprintf_P(devicename, PSTR( "%s/" D_CMND_SENSOR), SettingsText(SET_DEVICENAME));
+              MqttPublishPrefixTopicRulesProcess_P(TELE, devicename);
             }
           }
         }
@@ -1441,10 +1449,10 @@ void TuyaSensorsShow(bool json)
         if (added) {
           ResponseAppend_P(PSTR(","));
         }
-        if (sensor > 74) {
+        if (sensor > 72) {
           res = 0;
-        } else if (sensor > 72) {
-          res = Settings->flag2.humidity_resolution;
+       // } else if (sensor > 72) {
+       //   res = Settings->flag2.humidity_resolution;
         } else if (sensor == 72) {
           res = Settings->mbflag2.temperature_set_res;
         } else {
@@ -1468,11 +1476,10 @@ void TuyaSensorsShow(bool json)
                             dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[1], Settings->mbflag2.temperature_set_res), Settings->mbflag2.temperature_set_res, tempval), TempUnit());
             break;
           case 73:
-            WSContentSend_PD(HTTP_SNS_FUELLEVEL, "", dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[2], Settings->flag2.humidity_resolution), Settings->flag2.humidity_resolution, tempval));
+            WSContentSend_PD(HTTP_SNS_FUELLEVEL, "", Tuya.Sensors[2]);
             break;
           case 74:
-            WSContentSend_PD(PSTR("{s}" "Time Set{m}%s " D_UNIT_MINUTE "{e}"),
-                            dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[3], Settings->flag2.humidity_resolution), Settings->flag2.humidity_resolution, tempval));
+            WSContentSend_PD(PSTR("{s}" "Time Set{m}%s " D_UNIT_MINUTE "{e}"), dtostrfd(TuyaAdjustedTemperature(Tuya.Sensors[3], 0), 0, tempval));
             break;
           case 75:
             WSContentSend_PD(HTTP_SNS_HEATERSTATE, "", Tuya.Sensors[4]);
