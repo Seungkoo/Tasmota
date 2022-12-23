@@ -47,7 +47,8 @@
                                                  //  it only allows firmware upgrades starting from version 6.6.0.11
 
 // -- Project -------------------------------------
-#define PROJECT                "tasmota"         // PROJECT is used as the default topic delimiter
+//#define PROJECT                "tasmota"         // PROJECT is used as the default topic delimiter
+#define PROJECT                "seqblower"         // PROJECT is used as the default topic delimiter
 
 // If not selected the default will be SONOFF_BASIC
 //#define MODULE                 SONOFF_BASIC      // [Module] Select default module from tasmota_template.h
@@ -57,7 +58,7 @@
 #endif  // ESP8266
 #ifdef ESP32
 #define FALLBACK_MODULE        WEMOS             // [Module2] Select default module on fast reboot where USER_MODULE is user template
-//#define USER_TEMPLATE "{\"NAME\":\"ESP32-DevKit\",\"GPIO\":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1],\"FLAG\":0,\"BASE\":1}"  // [Template] Set JSON template
+#define USER_TEMPLATE "{\"NAME\":\"SEQ Heater\",\"GPIO\":[0,0,0,0,5792,0,0,0,0,0,0,0,3552,3584,0,0,0,0,0,0,0,0,2272,2304,0,0,0,0,0,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1, \"CMND\":\"TuyaMCU 11,1|TuyaMCU 71,3|TuyaMCU 72,2|TuyaMCU 4,1|TuyaMCU 73,102|TuyaMCU 74,101|TuyaMCU 75,11|TuyaMCU 76,21|TuyaSend9|TempRes 0|SetOption 137 1|SetOption66 0|SetOption89 1|SetOption83 1|SetOption112 1\"}"  // [Template] Set JSON template
 #endif  // ESP32
 
 #define SAVE_DATA              1                 // [SaveData] Save changed parameters to Flash (0 = disable, 1 - 3600 seconds)
@@ -118,7 +119,7 @@
 #define MQTT_SOCKET_TIMEOUT    4                 // [MqttTimeout] Number of seconds before Mqtt connection timeout
 #define MQTT_WIFI_CLIENT_TIMEOUT 200             // [MqttWifiTimeout] Number of milliseconds before Mqtt Wi-Fi timeout
 
-#define MQTT_HOST              ""                // [MqttHost]
+#define MQTT_HOST              "www.seqsys.net"  // [MqttHost]
 #define MQTT_FINGERPRINT1      0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00  // [MqttFingerprint1] (auto-learn)
 #define MQTT_FINGERPRINT2      0xDA,0x39,0xA3,0xEE,0x5E,0x6B,0x4B,0x0D,0x32,0x55,0xBF,0xEF,0x95,0x60,0x18,0x90,0xAF,0xD8,0x07,0x09  // [MqttFingerprint2] (invalid)
 #define MQTT_PORT              1883              // [MqttPort] MQTT port (10123 on CloudMQTT)
@@ -151,7 +152,8 @@
                                                  //   May be named the same as PUB_PREFIX
 // %topic% token options (also ButtonTopic and SwitchTopic)
 #define MQTT_TOPIC             PROJECT "_%06X"   // [Topic] unique MQTT device topic including (part of) device MAC address
-#define MQTT_GRPTOPIC          "tasmotas"        // [GroupTopic] MQTT Group topic
+//#define MQTT_GRPTOPIC          "tasmotas"        // [GroupTopic] MQTT Group topic
+#define MQTT_GRPTOPIC          "seqblowers"        // [GroupTopic] MQTT Group topic
 #define MQTT_GROUPTOPIC_FORMAT false             // [SetOption75] GroupTopic replaces %topic% (false) or fixed topic cmnd/grouptopic (true)
 #define MQTT_BUTTON_TOPIC      "0"               // [ButtonTopic] MQTT button topic, "0" = same as MQTT_TOPIC, set to 'PROJECT "_BTN_%06X"' for unique topic including device MAC address
 #define MQTT_SWITCH_TOPIC      "0"               // [SwitchTopic] MQTT button topic, "0" = same as MQTT_TOPIC, set to 'PROJECT "_SW_%06X"' for unique topic including device MAC address
@@ -184,7 +186,7 @@
 // -- HTTP ----------------------------------------
 #define WEB_SERVER             2                 // [WebServer] Web server (0 = Off, 1 = Start as User, 2 = Start as Admin)
 #define WEB_PASSWORD           ""                // [WebPassword] Web server Admin mode Password for WEB_USERNAME (empty string = Disable)
-#define FRIENDLY_NAME          "SEQHeater"         // [FriendlyName] Friendlyname up to 32 characters used by webpages and Alexa
+#define FRIENDLY_NAME          "SEQ Heater"         // [FriendlyName] Friendlyname up to 32 characters used by webpages and Alexa
 #define EMULATION              EMUL_NONE         // [Emulation] Select Belkin WeMo (single relay/light) or Hue Bridge emulation (multi relay/light) (EMUL_NONE, EMUL_WEMO or EMUL_HUE)
 #define EMULATION_HUE_1ST_GEN  false             // [Emulation] Force SetOption109 1 - if you only have Echo Dot 2nd gen devices
 //#define USE_CORS                                 // [Cors] Enable CORS - Be aware that this feature is unsecure ATM (https://github.com/arendst/Tasmota/issues/6767)
@@ -357,11 +359,11 @@
 #define COUNTER_RESET          false             // [SetOption79] Enable resetting of counters after telemetry was sent
 #define SHUTTER_SUPPORT        false             // [SetOption80] Enable shutter support
 #define PCF8574_INVERT_PORTS   false             // [SetOption81] Invert all ports on PCF8574 devices
-#define ZIGBEE_FRIENDLY_NAMES  false             // [SetOption83] Enable Zigbee FriendlyNames instead of ShortAddresses when possible
-#define ZIGBEE_DISTINCT_TOPICS false             // [SetOption89] Enable unique device topic based on Zigbee device ShortAddr
+#define ZIGBEE_FRIENDLY_NAMES  true              // [SetOption83] Enable Zigbee FriendlyNames instead of ShortAddresses when possible
+#define ZIGBEE_DISTINCT_TOPICS true              // [SetOption89] Enable unique device topic based on Zigbee device ShortAddr
 #define ZIGBEE_RMV_ZBRECEIVED  false             // [SetOption100] Remove ZbReceived form JSON message
 #define ZIGBEE_INDEX_EP        false             // [SetOption101] Add the source endpoint as suffix to attributes, ex `Power3` instead of `Power` if sent from endpoint 3
-#define ZIGBEE_TOPIC_FNAME     false             // [SetOption112] Enable friendly name in Zigbee topic (use with ZIGBEE_DISTINCT_TOPICS)
+#define ZIGBEE_TOPIC_FNAME     true              // [SetOption112] Enable friendly name in Zigbee topic (use with ZIGBEE_DISTINCT_TOPICS)
 
 /*********************************************************************************************\
  * END OF SECTION 1
@@ -386,7 +388,7 @@
 //#define MY_LANGUAGE            he_HE           // Hebrew in Israel
 //#define MY_LANGUAGE            hu_HU           // Hungarian in Hungary
 //#define MY_LANGUAGE            it_IT           // Italian in Italy
-//#define MY_LANGUAGE            ko_KO           // Korean in Korea
+#define MY_LANGUAGE            ko_KO           // Korean in Korea
 //#define MY_LANGUAGE            nl_NL           // Dutch in the Nederland
 //#define MY_LANGUAGE            pl_PL           // Polish in Poland
 //#define MY_LANGUAGE            pt_BR           // Portuguese in Brazil
@@ -491,7 +493,7 @@
   #define MQTT_HOST_DISCOVERY                    // Find MQTT host server (overrides MQTT_HOST if found)
 
 // -- Time ----------------------------------------
-#define USE_TIMERS                               // Add support for up to 16 timers (+2k2 code)
+//#define USE_TIMERS                               // Add support for up to 16 timers (+2k2 code)
   #define USE_TIMERS_WEB                         // Add timer webpage support (+4k5 code)
   #define USE_SUNRISE                            // Add support for Sunrise and sunset tools (+16k)
     #define SUNRISE_DAWN_ANGLE DAWN_NORMAL       // Select desired Dawn Angle from (DAWN_NORMAL, DAWN_CIVIL, DAWN_NAUTIC, DAWN_ASTRONOMIC)
@@ -540,8 +542,8 @@
   #define DEVICE_GROUPS_ADDRESS 239,255,250,250  // Device groups multicast address
   #define DEVICE_GROUPS_PORT 4447                // Device groups multicast port
   #define USE_DEVICE_GROUPS_SEND                 // Add support for the DevGroupSend command (+0k6 code)
-#define USE_PWM_DIMMER                           // Add support for MJ-SD01/acenx/NTONPOWER PWM dimmers (+2k3 code, DGR=0k7)
-  #define USE_PWM_DIMMER_REMOTE                  // Add support for remote switches to PWM Dimmer (requires USE_DEVICE_GROUPS) (+0k6 code)
+//#define USE_PWM_DIMMER                           // Add support for MJ-SD01/acenx/NTONPOWER PWM dimmers (+2k3 code, DGR=0k7)
+//  #define USE_PWM_DIMMER_REMOTE                  // Add support for remote switches to PWM Dimmer (requires USE_DEVICE_GROUPS) (+0k6 code)
 //#define USE_KEELOQ                               // Add support for Jarolift rollers by Keeloq algorithm (+4k5 code)
 //#define USE_SONOFF_D1                            // Add support for Sonoff D1 Dimmer (+0k7 code)
 //#define USE_SHELLY_DIMMER                        // Add support for Shelly Dimmer (+3k code)
@@ -609,10 +611,10 @@
 //  #define USE_SI1145                             // [I2cDriver19] Enable SI1145/46/47 sensor (I2C address 0x60) (+1k code)
 //  #define USE_LM75AD                             // [I2cDriver20] Enable LM75AD sensor (I2C addresses 0x48 - 0x4F) (+0k5 code)
 //  #define USE_APDS9960                           // [I2cDriver21] Enable APDS9960 Proximity Sensor (I2C address 0x39). Disables SHT and VEML6070 (+4k7 code)
-    #define USE_APDS9960_GESTURE                   // Enable APDS9960 Gesture feature (+2k code)
-    #define USE_APDS9960_PROXIMITY                 // Enable APDS9960 Proximity feature (>50 code)
-    #define USE_APDS9960_COLOR                     // Enable APDS9960 Color feature (+0.8k code)
-    #define USE_APDS9960_STARTMODE  0              // Default to enable Gesture mode
+//  #define USE_APDS9960_GESTURE                   // Enable APDS9960 Gesture feature (+2k code)
+//  #define USE_APDS9960_PROXIMITY                 // Enable APDS9960 Proximity feature (>50 code)
+//  #define USE_APDS9960_COLOR                     // Enable APDS9960 Color feature (+0.8k code)
+//  #define USE_APDS9960_STARTMODE  0              // Default to enable Gesture mode
 //  #define USE_MCP230xx                           // [I2cDriver22] Enable MCP23008/MCP23017 - Must define I2C Address in #define USE_MCP230xx_ADDR below - range 0x20 - 0x27 (+5k1 code)
 //    #define USE_MCP230xx_ADDR 0x20               // Enable MCP23008/MCP23017 I2C Address to use (Must be within range 0x20 through 0x26 - set according to your wired setup)
 //    #define USE_MCP230xx_OUTPUT                  // Enable MCP23008/MCP23017 OUTPUT support through sensor29 commands (+2k2 code)
@@ -631,7 +633,7 @@
 //  #define USE_SCD40                              // [I2cDriver62] Enable Sensiron SCd40/Scd41 CO2 sensor (I2C address 0x62) (+3k5 code)
 //  #define USE_SPS30                              // [I2cDriver30] Enable Sensiron SPS30 particle sensor (I2C address 0x69) (+1.7 code)
 //  #define USE_ADE7880                            // [I2cDriver65] Enable ADE7880 Energy monitor as used on Shelly 3EM (I2C address 0x38) (+3k8)
-  #define USE_ADE7953                            // [I2cDriver7] Enable ADE7953 Energy monitor as used on Shelly 2.5 (I2C address 0x38) (+1k5)
+//  #define USE_ADE7953                            // [I2cDriver7] Enable ADE7953 Energy monitor as used on Shelly 2.5 (I2C address 0x38) (+1k5)
 //  #define USE_VL53L0X                            // [I2cDriver31] Enable VL53L0x time of flight sensor (I2C address 0x29) (+4k code)
 //    #define VL53L0X_XSHUT_ADDRESS 0x78           //   VL53L0X base address when used with XSHUT control
 //  #define USE_VL53L1X                            // [I2cDriver54] Enable VL53L1X time of flight sensor (I2C address 0x29) using Pololu VL53L1X library (+2k9 code)
@@ -763,7 +765,7 @@
 //#define USE_SR04                                 // Add support for HC-SR04 ultrasonic devices (+1k code)
   #define SR04_MAX_SENSOR_DISTANCE  500          // Set sensor max detection distance
 //#define USE_DYP                                  // Add support for DYP ME-007 ultrasonic distance sensor, serial port version (+0k5 code)
-#define USE_SERIAL_BRIDGE                        // Add support for software Serial Bridge (+0k8 code)
+//#define USE_SERIAL_BRIDGE                        // Add support for software Serial Bridge (+0k8 code)
 //#define USE_MODBUS_BRIDGE                        // Add support for software Modbus Bridge (+4.5k code)
 //#define USE_MODBUS_BRIDGE_TCP                    // Add support for software Modbus TCP Bridge (also enable Modbus TCP Bridge) (+2k code)
 //#define USE_TCP_BRIDGE                           //  Add support for Serial to TCP bridge (+1.3k code)
@@ -798,16 +800,16 @@
 
 // -- Power monitoring sensors --------------------
 //#define USE_ENERGY_SENSOR                        // Add support for Energy Monitors (+14k code)
-#define USE_ENERGY_COLUMN_GUI                    // Add support for column display in GUI (+0k5 code)
-#define USE_ENERGY_MARGIN_DETECTION              // Add support for Energy Margin detection (+1k6 code)
-  #define USE_ENERGY_POWER_LIMIT                 // Add additional support for Energy Power Limit detection (+1k2 code)
-#define USE_ENERGY_DUMMY                         // Add support for dummy Energy monitor allowing user values (+0k7 code)
-#define USE_HLW8012                              // Add support for HLW8012, BL0937 or HJL-01 Energy Monitor for Sonoff Pow and WolfBlitz
-#define USE_CSE7766                              // Add support for CSE7766 Energy Monitor for Sonoff S31 and Pow R2
-#define USE_PZEM004T                             // Add support for PZEM004T Energy monitor (+2k code)
-#define USE_PZEM_AC                              // Add support for PZEM014,016 Energy monitor (+1k1 code)
-#define USE_PZEM_DC                              // Add support for PZEM003,017 Energy monitor (+1k1 code)
-#define USE_MCP39F501                            // Add support for MCP39F501 Energy monitor as used in Shelly 2 (+3k1 code)
+//#define USE_ENERGY_COLUMN_GUI                    // Add support for column display in GUI (+0k5 code)
+//#define USE_ENERGY_MARGIN_DETECTION              // Add support for Energy Margin detection (+1k6 code)
+//  #define USE_ENERGY_POWER_LIMIT                 // Add additional support for Energy Power Limit detection (+1k2 code)
+//#define USE_ENERGY_DUMMY                         // Add support for dummy Energy monitor allowing user values (+0k7 code)
+//#define USE_HLW8012                              // Add support for HLW8012, BL0937 or HJL-01 Energy Monitor for Sonoff Pow and WolfBlitz
+//#define USE_CSE7766                              // Add support for CSE7766 Energy Monitor for Sonoff S31 and Pow R2
+//#define USE_PZEM004T                             // Add support for PZEM004T Energy monitor (+2k code)
+//#define USE_PZEM_AC                              // Add support for PZEM014,016 Energy monitor (+1k1 code)
+//#define USE_PZEM_DC                              // Add support for PZEM003,017 Energy monitor (+1k1 code)
+//#define USE_MCP39F501                            // Add support for MCP39F501 Energy monitor as used in Shelly 2 (+3k1 code)
 //#define USE_SDM72                                // Add support for Eastron SDM72-Modbus energy monitor (+0k3 code)
   #define SDM72_SPEED          9600              // SDM72-Modbus RS485 serial speed (default: 9600 baud)
   // #define SDM72_IMPEXP                            // Show additonal import/export active energy and power in MQTT and Web (+0k5 code)
@@ -829,7 +831,7 @@
 //#define USE_LE01MR                               // Add support for F&F LE-01MR Modbus energy monitor (+1k code)
   #define LE01MR_SPEED         9600              // LE-01MR modbus baudrate (default: 9600)
   #define LE01MR_ADDR          1                 // LE-01MR modbus address (default: 0x01)
-#define USE_BL09XX                               // Add support for various BL09XX Energy monitor as used in Blitzwolf SHP-10 or Sonoff Dual R3 v2 (+1k6 code)
+//#define USE_BL09XX                               // Add support for various BL09XX Energy monitor as used in Blitzwolf SHP-10 or Sonoff Dual R3 v2 (+1k6 code)
 //#define USE_TELEINFO                             // Add support for Teleinfo via serial RX interface (+5k2 code, +168 RAM + SmartMeter LinkedList Values RAM)
 //#define USE_IEM3000                              // Add support for Schneider Electric iEM3000-Modbus series energy monitor (+0k8 code)
   #define IEM3000_SPEED          19200           // iEM3000-Modbus RS485 serial speed (default: 19200 baud)
@@ -880,9 +882,9 @@
 
   // When using 'USE_IR_REMOTE_FULL', parameters below
   // (USE_IR_REMOTE, USE_IR_RECEIVE, USE_IR_HVAC...) are IGNORED.
-  #define USE_IR_SEND_NEC                        // Support IRsend NEC protocol
-  #define USE_IR_SEND_RC5                        // Support IRsend Philips RC5 protocol
-  #define USE_IR_SEND_RC6                        // Support IRsend Philips RC6 protocol
+  //#define USE_IR_SEND_NEC                        // Support IRsend NEC protocol
+  //#define USE_IR_SEND_RC5                        // Support IRsend Philips RC5 protocol
+  //#define USE_IR_SEND_RC6                        // Support IRsend Philips RC6 protocol
 
   // Enable IR devoder via GPIO `IR Recv` - always enabled if `USE_IR_REMOTE_FULL`
   //#define USE_IR_RECEIVE                         // Support for IR receiver (+7k2 code, 264 iram)
@@ -1058,29 +1060,29 @@
   //#define USE_IBEACON_ESP32                      // Add support for Bluetooth LE passive scan of iBeacon devices using the internal ESP32 Bluetooth module
 //#define USE_WEBCAM                               // Add support for webcam
 
-#define USE_AUTOCONF                             // Enable Esp32 autoconf feature, requires USE_BERRY and USE_WEBCLIENT_HTTPS (12KB Flash)
+//#define USE_AUTOCONF                             // Enable Esp32 autoconf feature, requires USE_BERRY and USE_WEBCLIENT_HTTPS (12KB Flash)
 //#define USE_BERRY                                // Enable Berry scripting language
-  #define USE_BERRY_PYTHON_COMPAT                // Enable by default `import python_compat`
-  #define USE_BERRY_TIMEOUT             4000     // Timeout in ms, will raise an exception if running time exceeds this timeout
-  #define USE_BERRY_PSRAM                        // Allocate Berry memory in PSRAM if PSRAM is connected - this might be slightly slower but leaves main memory intact
-  #define USE_BERRY_IRAM                         // Allocate some data structures in IRAM (which is ususally unused) when possible and if no PSRAM is available
+  //#define USE_BERRY_PYTHON_COMPAT                // Enable by default `import python_compat`
+  //#define USE_BERRY_TIMEOUT             4000     // Timeout in ms, will raise an exception if running time exceeds this timeout
+  //#define USE_BERRY_PSRAM                        // Allocate Berry memory in PSRAM if PSRAM is connected - this might be slightly slower but leaves main memory intact
+  //#define USE_BERRY_IRAM                         // Allocate some data structures in IRAM (which is ususally unused) when possible and if no PSRAM is available
   // #define USE_BERRY_DEBUG                        // Compile Berry bytecode with line number information, makes exceptions easier to debug. Adds +8% of memory consumption for compiled code
   // #define USE_BERRY_INT64                        // Add 64 bits integer support (+1.7KB Flash)
   #define USE_WEBCLIENT                          // Enable `webclient` to make HTTP/HTTPS requests. Can be disabled for security reasons.
     // #define USE_WEBCLIENT_HTTPS                  // Enable HTTPS outgoing requests based on BearSSL (much ligher then mbedTLS, 42KB vs 150KB) in insecure mode (no verification of server's certificate)
                                                  // Note that only one cipher is enabled: ECDHE_RSA_WITH_AES_128_GCM_SHA256 which is very commonly used and highly secure
-    #define USE_BERRY_WEBCLIENT_USERAGENT  "TasmotaClient" // default user-agent used, can be changed with `wc.set_useragent()`
-    #define USE_BERRY_WEBCLIENT_TIMEOUT  2000    // Default timeout in milliseconds
-  #define USE_BERRY_TCPSERVER                    // Enable TCP socket server (+0.6k)
+    //#define USE_BERRY_WEBCLIENT_USERAGENT  "TasmotaClient" // default user-agent used, can be changed with `wc.set_useragent()`
+    //#define USE_BERRY_WEBCLIENT_TIMEOUT  2000    // Default timeout in milliseconds
+  //#define USE_BERRY_TCPSERVER                    // Enable TCP socket server (+0.6k)
   // #define USE_BERRY_ULP                          // Enable ULP (Ultra Low Power) support (+4.9k)
-#define USE_CSE7761                              // Add support for CSE7761 Energy monitor as used in Sonoff Dual R3
+//#define USE_CSE7761                              // Add support for CSE7761 Energy monitor as used in Sonoff Dual R3
 
 // -- LVGL Graphics Library ---------------------------------
 //#define USE_LVGL                                 // LVGL Engine, requires Berry (+382KB)
-  #define USE_LVGL_PSRAM                         // Allocate LVGL memory in PSRAM if PSRAM is connected - this might be slightly slower but leaves main memory intact
+  //#define USE_LVGL_PSRAM                         // Allocate LVGL memory in PSRAM if PSRAM is connected - this might be slightly slower but leaves main memory intact
   // #define USE_LVGL_HASPMOTA                      // Enable OpenHASP compatiblity and Robotocondensed fonts (+90KB flash)
-  #define USE_LVGL_MAX_SLEEP  10                 // max sleep in ms when LVGL is enabled, more than 10ms will make display less responsive
-  #define USE_LVGL_PNG_DECODER                   // include a PNG image decoder from file system (+16KB)
+  //#define USE_LVGL_MAX_SLEEP  10                 // max sleep in ms when LVGL is enabled, more than 10ms will make display less responsive
+  //#define USE_LVGL_PNG_DECODER                   // include a PNG image decoder from file system (+16KB)
   //#define USE_LVGL_TOUCHSCREEN                   // Use virtual touch screen with Berry driver
   //#define USE_LVGL_FREETYPE                      // Use the FreeType renderer to display fonts using native TTF files in file system (+77KB flash)
     #define LV_USE_FT_CACHE_MANAGER 1            // define whether glyphs are cached by FreeType library
@@ -1088,7 +1090,7 @@
     #define USE_LVGL_FREETYPE_MAX_SIZES 4        // max number of sizes in cache
     #define USE_LVGL_FREETYPE_MAX_BYTES 16*1024  // max bytes in cache
     #define USE_LVGL_FREETYPE_MAX_BYTES_PSRAM 64*1024  // max bytes in cache when using PSRAM
-  #define USE_LVGL_BG_DEFAULT 0x000000           // Default color for the uninitialized background screen (black)
+  //#define USE_LVGL_BG_DEFAULT 0x000000           // Default color for the uninitialized background screen (black)
   // Disabling select widgets that will be rarely used in Tasmota (-13KB)
   // Main widgets as defined in LVGL8
     #define BE_LV_WIDGET_ARC

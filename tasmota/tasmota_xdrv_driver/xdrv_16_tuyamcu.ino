@@ -1153,6 +1153,19 @@ bool TuyaModuleSelected(void) {
 
   bool relaySet = false;
 
+  //SEQ Heater initialize 1. Default Fuction mapping 2. MQTT topic Enable ----------------------------------------------------------------------
+  TuyaAddMcuFunc(11,1); 
+  TuyaAddMcuFunc(71,3); 
+  TuyaAddMcuFunc(72,2); 
+  TuyaAddMcuFunc(12,4); 
+  TuyaAddMcuFunc(73,102);
+  TuyaAddMcuFunc(74,101); 
+  TuyaAddMcuFunc(75,11); 
+  TuyaAddMcuFunc(76,21);
+  Settings->tuyamcu_topic = true;
+  Settings->flag2.temperature_resolution = 1;
+  //---------------------------------------------------------
+
   for (uint8_t i = 0 ; i < MAX_TUYA_FUNCTIONS; i++) {
     if ((Settings->tuya_fnid_map[i].fnid >= TUYA_MCU_FUNC_REL1 && Settings->tuya_fnid_map[i].fnid <= TUYA_MCU_FUNC_REL8 ) ||
     (Settings->tuya_fnid_map[i].fnid >= TUYA_MCU_FUNC_REL1_INV && Settings->tuya_fnid_map[i].fnid <= TUYA_MCU_FUNC_REL8_INV )) {

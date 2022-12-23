@@ -2978,6 +2978,7 @@ const char kModuleNames[] PROGMEM =
 #endif  // USE_M5STACK_CORE2
   ;
 
+//SEQ_HEATER
 // !!! Update this list in the same order as SupportedModulesESP32 !!!
 const mytmplt kModules[] PROGMEM = {
   {                              // WEMOS - Espressif ESP32-DevKitC - Any ESP32 device like WeMos and NodeMCU hardware (ESP32)
@@ -2985,7 +2986,7 @@ const mytmplt kModules[] PROGMEM = {
     AGPIO(GPIO_USER),            // 1       IO     TXD0         GPIO1, U0TXD, CLK_OUT3, EMAC_RXD2
     AGPIO(GPIO_USER),            // 2       IO                  GPIO2, ADC2_CH2, TOUCH2, RTC_GPIO12, HSPIWP, HS2_DATA0, SD_DATA0
     AGPIO(GPIO_USER),            // 3       IO     RXD0         GPIO3, U0RXD, CLK_OUT2
-    AGPIO(GPIO_USER),            // 4       IO                  GPIO4, ADC2_CH0, TOUCH0, RTC_GPIO10, HSPIHD, HS2_DATA1, SD_DATA1, EMAC_TX_ER
+    AGPIO(GPIO_ZIGBEE_RST),            // 4       IO                  GPIO4, ADC2_CH0, TOUCH0, RTC_GPIO10, HSPIHD, HS2_DATA1, SD_DATA1, EMAC_TX_ER
     AGPIO(GPIO_USER),            // 5       IO                  GPIO5, VSPICS0, HS1_DATA6, EMAC_RX_CLK
                                  // 6       IO                  Remapped to 28
                                  // 7       IO                  Remapped to 29
@@ -2997,8 +2998,8 @@ const mytmplt kModules[] PROGMEM = {
     AGPIO(GPIO_USER),            // 13      IO                  GPIO13, ADC2_CH4, TOUCH4, RTC_GPIO14, MTCK, HSPID, HS2_DATA3, SD_DATA3, EMAC_RX_ER
     AGPIO(GPIO_USER),            // 14      IO                  GPIO14, ADC2_CH6, TOUCH6, RTC_GPIO16, MTMS, HSPICLK, HS2_CLK, SD_CLK, EMAC_TXD2
     AGPIO(GPIO_USER),            // 15      (I)O                GPIO15, ADC2_CH3, TOUCH3, MTDO, HSPICS0, RTC_GPIO13, HS2_CMD, SD_CMD, EMAC_RXD3         (If driven Low, silences boot messages from normal boot. Has internal pull-up, so unconnected = High = normal output.)
-    AGPIO(GPIO_USER),            // 16      IO                  GPIO16, HS1_DATA4, U2RXD, EMAC_CLK_OUT
-    AGPIO(GPIO_USER),            // 17      IO                  GPIO17, HS1_DATA5, U2TXD, EMAC_CLK_OUT_180
+    AGPIO(GPIO_ZIGBEE_TX),            // 16      IO                  GPIO16, HS1_DATA4, U2RXD, EMAC_CLK_OUT
+    AGPIO(GPIO_ZIGBEE_RX),            // 17      IO                  GPIO17, HS1_DATA5, U2TXD, EMAC_CLK_OUT_180
     AGPIO(GPIO_USER),            // 18      IO                  GPIO18, VSPICLK, HS1_DATA7
     AGPIO(GPIO_USER),            // 19      IO                  GPIO19, VSPIQ, U0CTS, EMAC_TXD0
     0,                           // 20
@@ -3007,8 +3008,8 @@ const mytmplt kModules[] PROGMEM = {
     AGPIO(GPIO_USER),            // 23      IO                  GPIO23, VSPID, HS1_STROBE
     0,                           // 24
     AGPIO(GPIO_USER),            // 25      IO                  GPIO25, DAC_1, ADC2_CH8, RTC_GPIO6, EMAC_RXD0
-    AGPIO(GPIO_USER),            // 26      IO                  GPIO26, DAC_2, ADC2_CH9, RTC_GPIO7, EMAC_RXD1
-    AGPIO(GPIO_USER),            // 27      IO                  GPIO27, ADC2_CH7, TOUCH7, RTC_GPIO17, EMAC_RX_DV
+    AGPIO(GPIO_TUYA_TX),            // 26      IO                  GPIO26, DAC_2, ADC2_CH9, RTC_GPIO7, EMAC_RXD1
+    AGPIO(GPIO_TUYA_RX),            // 27      IO                  GPIO27, ADC2_CH7, TOUCH7, RTC_GPIO17, EMAC_RX_DV
     0,                           // 6       IO                  GPIO6, Flash CLK
     0,                           // 7       IO                  GPIO7, Flash D0
     0,                           // 8       IO                  GPIO8, Flash D1
