@@ -58,7 +58,7 @@
 #endif  // ESP8266
 #ifdef ESP32
 #define FALLBACK_MODULE        WEMOS             // [Module2] Select default module on fast reboot where USER_MODULE is user template
-#define USER_TEMPLATE "{\"NAME\":\"SEQ Heater\",\"GPIO\":[0,0,0,0,5792,0,0,0,0,0,0,0,3552,3584,0,0,0,0,0,0,0,0,2272,2304,0,0,0,0,0,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1, \"CMND\":\"TuyaMCU 11,1|TuyaMCU 71,3|TuyaMCU 72,2|TuyaMCU 4,1|TuyaMCU 73,102|TuyaMCU 74,101|TuyaMCU 75,11|TuyaMCU 76,21|TuyaSend9|TempRes 0|SetOption 137 1|SetOption66 0|SetOption89 1|SetOption83 1|SetOption112 1\"}"  // [Template] Set JSON template
+#define USER_TEMPLATE "{\"NAME\":\"SEQ_Heater\",\"GPIO\":[0,0,0,0,5792,0,0,0,0,0,0,0,3552,3584,0,0,0,0,0,0,0,0,2304,2272,0,0,0,0,0,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1, \"CMND\":\"TuyaMCU 11,1|TuyaMCU 71,3|TuyaMCU 72,2|TuyaMCU 4,1|TuyaMCU 73,102|TuyaMCU 74,101|TuyaMCU 75,11|TuyaMCU 76,21|TuyaSend9|TempRes 0|SetOption 137 1|SetOption66 0|SetOption89 1|SetOption83 1|SetOption112 1\"}"  // [Template] Set JSON template
 #endif  // ESP32
 
 #define SAVE_DATA              1                 // [SaveData] Save changed parameters to Flash (0 = disable, 1 - 3600 seconds)
@@ -108,7 +108,7 @@
 #elif defined(CORE32SOLO1)
 #define OTA_URL                "http://ota.tasmota.com/tasmota32/release/tasmota32solo1.bin"  // [OtaUrl]
 #else
-#define OTA_URL                "http://ota.tasmota.com/tasmota32/release/tasmota32.bin"  // [OtaUrl]
+#define OTA_URL                "http://ota.seqsys.net/tasmota32/release/tasmota32.bin"  // [OtaUrl]
 #endif  //  CONFIG_IDF_TARGET_ESP32C3
 #endif  // ESP32
 
@@ -282,7 +282,7 @@
 #define APP_ENABLE_LEDLINK     false             // [SetOption31] Enable link led blinking
 
 #define APP_PULSETIME          0                 // [PulseTime] Time in 0.1 Sec to turn off power for relay 1 (0 = disabled)
-#define APP_POWERON_STATE      POWER_ALL_SAVED   // [PowerOnState] Power On Relay state
+#define APP_POWERON_STATE      POWER_ALL_OFF     // [PowerOnState] Power On Relay state
                                                  //   (POWER_ALL_OFF, POWER_ALL_ON, POWER_ALL_SAVED_TOGGLE, POWER_ALL_SAVED, POWER_ALL_ALWAYS_ON, POWER_ALL_OFF_PULSETIME_ON)
 #define APP_BLINKTIME          10                // [BlinkTime] Time in 0.1 Sec to blink/toggle power for relay 1
 #define APP_BLINKCOUNT         10                // [BlinkCount] Number of blinks (0 = 32000)
@@ -307,7 +307,7 @@
 #define TEMP_CONVERSION        false             // [SetOption8] Return temperature in (false = Celsius or true = Fahrenheit)
 #define PRESSURE_CONVERSION    false             // [SetOption24] Return pressure in (false = hPa or true = mmHg)
 #define TEMP_RESOLUTION        0                 // [TempRes] Maximum number of decimals (0 - 3) showing sensor Temperature
-#define HUMIDITY_RESOLUTION    1                 // [HumRes] Maximum number of decimals (0 - 3) showing sensor Humidity
+#define HUMIDITY_RESOLUTION    0                 // [HumRes] Maximum number of decimals (0 - 3) showing sensor Humidity
 #define PRESSURE_RESOLUTION    1                 // [PressRes] Maximum number of decimals (0 - 3) showing sensor Pressure
 #define ENERGY_RESOLUTION      3                 // [EnergyRes] Maximum number of decimals (0 - 5) showing energy usage in kWh
 #define CALC_RESOLUTION        3                 // [CalcRes] Maximum number of decimals (0 - 7) used in commands ADD, SUB, MULT and SCALE

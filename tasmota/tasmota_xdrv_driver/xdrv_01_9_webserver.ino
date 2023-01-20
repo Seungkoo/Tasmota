@@ -964,6 +964,10 @@ void WSContentSend_Temp(const char *types, float f_temperature) {
   WSContentSend_PD(HTTP_SNS_F_TEMP, types, Settings->flag2.temperature_resolution, &f_temperature, TempUnit());
 }
 
+void WSContentSend_Temp_extra(uint8_t temp_no, const char *types, float f_temperature) {
+  WSContentSend_PD(HTTP_SNS_F_TEMP, types, Settings->flag2.temperature_resolution, &f_temperature, TempUnit());
+}
+
 void WSContentSend_Voltage(const char *types, float f_voltage) {
   WSContentSend_PD(HTTP_SNS_F_VOLTAGE, types, Settings->flag2.voltage_resolution, &f_voltage);
 }

@@ -3008,8 +3008,8 @@ const mytmplt kModules[] PROGMEM = {
     AGPIO(GPIO_USER),            // 23      IO                  GPIO23, VSPID, HS1_STROBE
     0,                           // 24
     AGPIO(GPIO_USER),            // 25      IO                  GPIO25, DAC_1, ADC2_CH8, RTC_GPIO6, EMAC_RXD0
-    AGPIO(GPIO_TUYA_TX),            // 26      IO                  GPIO26, DAC_2, ADC2_CH9, RTC_GPIO7, EMAC_RXD1
-    AGPIO(GPIO_TUYA_RX),            // 27      IO                  GPIO27, ADC2_CH7, TOUCH7, RTC_GPIO17, EMAC_RX_DV
+    AGPIO(GPIO_TUYA_RX),         // 26      IO                  GPIO26, DAC_2, ADC2_CH9, RTC_GPIO7, EMAC_RXD1
+    AGPIO(GPIO_TUYA_TX),         // 27      IO                  GPIO27, ADC2_CH7, TOUCH7, RTC_GPIO17, EMAC_RX_DV
     0,                           // 6       IO                  GPIO6, Flash CLK
     0,                           // 7       IO                  GPIO7, Flash D0
     0,                           // 8       IO                  GPIO8, Flash D1

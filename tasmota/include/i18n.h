@@ -189,6 +189,11 @@
 #define D_JSON_SWITCH "Switch"
 #define D_JSON_SYNC "Sync"
 #define D_JSON_TEMPERATURE "Temperature"
+// SEQ Heater 
+#define D_JSON_TEMPERATURE2 "Temperature2"
+#define D_JSON_TEMPERATURE3 "Temperature3"
+#define D_JSON_TEMPERATURE4 "Temperature4"
+// End of SEQ Heater 
 #define D_JSON_TEMPERATURE_UNIT "TempUnit"
 #define D_JSON_TIME "Time"
 #define D_JSON_TODAY "Today"

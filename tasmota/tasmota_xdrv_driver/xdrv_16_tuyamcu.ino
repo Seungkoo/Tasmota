@@ -104,8 +104,8 @@ const char kTuyaSensors[] PROGMEM = // List of available sensors (can be expande
 //          71              72          73-fuellevel    74            75
   "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_FUELLEVEL "|TimeSet|" D_JSON_HEATER_STATE
 //         76            77             78              79                      80                     81     82     83     84
-//  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|TImer4";
- "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|Timer2|Timer3|Timer4";
+//  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|TImer1|D_JSON_TEMPERATURE2|D_JSON_TEMPERATURE3|D_JSON_TEMPERATURE4";
+ "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|" D_JSON_TEMPERATURE2 "|" D_JSON_TEMPERATURE3 "|" D_JSON_TEMPERATURE4;
 const char kTuyaCommand[] PROGMEM = D_PRFX_TUYA "|"  // Prefix
   D_CMND_TUYA_MCU "|" D_CMND_TUYA_MCU_SEND_STATE "|" D_CMND_TUYARGB "|" D_CMND_TUYA_ENUM "|" D_CMND_TUYA_ENUM_LIST "|TempSetRes";
 
@@ -432,7 +432,7 @@ inline bool TuyaFuncIdValid(uint8_t fnId) {
           (fnId == TUYA_MCU_FUNC_LOWPOWER_MODE) ||
           (fnId >= TUYA_MCU_FUNC_TEMP && fnId <= TUYA_MCU_FUNC_HUMSET) ||
           (fnId >= TUYA_MCU_FUNC_LX && fnId <= TUYA_MCU_FUNC_PM25) ||
-          (fnId >= TUYA_MCU_FUNC_TIMER1 && fnId <= TUYA_MCU_FUNC_TIMER4);
+          (fnId >= TUYA_MCU_FUNC_TIMER1 && fnId <= TUYA_MCU_FUNC_TEMP4);
 }
 uint8_t TuyaGetFuncId(uint8_t dpid) {
   for (uint8_t i = 0; i < MAX_TUYA_FUNCTIONS; i++) {
@@ -861,7 +861,7 @@ void TuyaProcessStatePacket(void) {
           packetValue = Tuya.buffer[dpidStart + 4];  //for Type4 Enum value - 1 byte
         }
 
-        if ((fnId >= TUYA_MCU_FUNC_TEMP) && (fnId <= TUYA_MCU_FUNC_TIMER4)) {      // Sensors start from fnId 71
+        if ((fnId >= TUYA_MCU_FUNC_TEMP) && (fnId <= TUYA_MCU_FUNC_TEMP4)) {      // Sensors start from fnId 71
           if (packetValue != Tuya.Sensors[fnId-71]) {
             Tuya.SensorsValid[fnId-71] = true;
             Tuya.Sensors[fnId-71] = packetValue;
@@ -882,10 +882,14 @@ void TuyaProcessStatePacket(void) {
             if (fnId > 80 || fnId == 74 || fnId == 72) {
               dont_publish = false;
             }
-            if (fnId > 74) {
+            if (fnId > 84){
               res = 0;
-            } else if (fnId > 72) {
-              res = 0; // Settings->flag2.humidity_resolution;
+            } else if (fnId > 81) {
+              res = Settings->flag2.temperature_resolution;  //temp2, temp3, temp4
+            } else if (fnId > 73) {
+              res = 0;
+            } else if (fnId == 73) {
+              res = 0; // Settings->flag2.humidity_resolution; //fuel level
             } else if (fnId == 72) {
               res = Settings->mbflag2.temperature_set_res;
             } else {
@@ -1155,13 +1159,16 @@ bool TuyaModuleSelected(void) {
 
   //SEQ Heater initialize 1. Default Fuction mapping 2. MQTT topic Enable ----------------------------------------------------------------------
   TuyaAddMcuFunc(11,1); 
-  TuyaAddMcuFunc(71,3); 
-  TuyaAddMcuFunc(72,2); 
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP,3); 
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMPSET,2); 
   TuyaAddMcuFunc(12,4); 
-  TuyaAddMcuFunc(73,102);
-  TuyaAddMcuFunc(74,101); 
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_HUM,102);      //Fuel Level
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_HUMSET,101);   //Time Set
   TuyaAddMcuFunc(75,11); 
   TuyaAddMcuFunc(76,21);
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP2,104); 
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP3,105);
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP4,106); 
   Settings->tuyamcu_topic = true;
   Settings->flag2.temperature_resolution = 1;
   //---------------------------------------------------------
@@ -1451,7 +1458,7 @@ void TuyaSensorsShow(bool json)
   char tempval[5];
   uint8_t res;
 
- for (uint8_t sensor = TUYA_MCU_FUNC_TEMP; sensor <= TUYA_MCU_FUNC_TIMER4; sensor++) { // Sensors start from fnId 71
+ for (uint8_t sensor = TUYA_MCU_FUNC_TEMP; sensor <= TUYA_MCU_FUNC_TEMP4; sensor++) { // Sensors start from fnId 71
      if (json) {
       if (TuyaGetDpId(sensor) != 0) {
 
@@ -1462,7 +1469,11 @@ void TuyaSensorsShow(bool json)
         if (added) {
           ResponseAppend_P(PSTR(","));
         }
-        if (sensor > 72) {
+        if (sensor > 84){
+          res = 0 ;
+        } else if(sensor > 81){
+          res = Settings->flag2.temperature_resolution;
+        } else if (sensor > 72) {
           res = 0;
        // } else if (sensor > 72) {
        //   res = Settings->flag2.humidity_resolution;
@@ -1482,7 +1493,7 @@ void TuyaSensorsShow(bool json)
       if (TuyaGetDpId(sensor) != 0) {
         switch (sensor) {
           case 71:
-            WSContentSend_Temp("", TuyaAdjustedTemperature(Tuya.Sensors[0], Settings->flag2.temperature_resolution));
+            WSContentSend_Temp("주변", TuyaAdjustedTemperature(Tuya.Sensors[0], Settings->flag2.temperature_resolution));
             break;
           case 72:
             WSContentSend_PD(PSTR("{s}" D_TEMPERATURE " Set{m}%s " D_UNIT_DEGREE "%c{e}"),
@@ -1513,10 +1524,12 @@ void TuyaSensorsShow(bool json)
             WSContentSend_PD(PSTR("{s}" D_ENVIRONMENTAL_CONCENTRATION " 2.5 " D_UNIT_MICROMETER "{m}%d " D_UNIT_MICROGRAM_PER_CUBIC_METER "{e}"), Tuya.Sensors[9]);
             break;
           case 81:
+            WSContentSend_PD(PSTR("{s}Timer%d{m}%d{e}"), (sensor-80), Tuya.Sensors[sensor-71]); // No UoM for timers since they can be sec or min
+            break;
           case 82:
           case 83:
           case 84:
-            WSContentSend_PD(PSTR("{s}Timer%d{m}%d{e}"), (sensor-80), Tuya.Sensors[sensor-71]); // No UoM for timers since they can be sec or min
+            WSContentSend_Temp("내부", TuyaAdjustedTemperature(Tuya.Sensors[sensor-71], Settings->flag2.temperature_resolution));
             break;
         }
       }
