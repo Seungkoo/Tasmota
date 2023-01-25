@@ -104,6 +104,7 @@
 #define D_JSON_FUELLEVEL "FuelLevel"                //SEQ Heater Oil Level
 #define D_JSON_HEATER_STATE "Heater State"          //SEQ Heater Power State
 #define D_JSON_HEATER_ERROR "Heater Error"          //SEQ Heater Error Code
+#define D_JSON_FLAME_STATE  "Flame Detector"        //SEQ Heater Flame Detector State
 // End of SEQ Heater
 #define D_JSON_I2CSCAN_DEVICES_FOUND_AT "Device(s) found at"
 #define D_JSON_I2CSCAN_UNKNOWN_ERROR_AT "Unknown error at"
@@ -929,6 +930,7 @@ const char HTTP_SNS_SOH[]           PROGMEM = "{s}%s "  D_SOH                 "{
 const char HTTP_SNS_FUELLEVEL[]     PROGMEM = "{s}%s "  D_FUELLEVEL           "{m}%d " D_UNIT_PERCENT             "{e}";
 const char HTTP_SNS_HEATERSTATE[]   PROGMEM = "{s}%s "  D_HEATERSTATE         "{m}%d "                            "{e}";
 const char HTTP_SNS_HEATERERROR[]   PROGMEM = "{s}%s "  D_HEATERERROR         "{m}%d "                            "{e}";
+const char HTTP_SNS_FLAMESTATE[]    PROGMEM = "{s}%s "  D_FLAMESTATE          "{m}%d "                            "{e}";
 #endif  // USE_WEBSERVER
 
 #endif  // _I18N_H_
