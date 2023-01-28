@@ -193,7 +193,7 @@
 // SEQ Heater 
 #define D_JSON_TEMPERATURE2 "Temperature2"
 #define D_JSON_TEMPERATURE3 "Temperature3"
-#define D_JSON_TEMPERATURE4 "Temperature4"
+#define D_JSON_FUEL_MILEAGE "Fule Mileage"
 // End of SEQ Heater 
 #define D_JSON_TEMPERATURE_UNIT "TempUnit"
 #define D_JSON_TIME "Time"
@@ -931,6 +931,7 @@ const char HTTP_SNS_FUELLEVEL[]     PROGMEM = "{s}%s "  D_FUELLEVEL           "{
 const char HTTP_SNS_HEATERSTATE[]   PROGMEM = "{s}%s "  D_HEATERSTATE         "{m}%d "                            "{e}";
 const char HTTP_SNS_HEATERERROR[]   PROGMEM = "{s}%s "  D_HEATERERROR         "{m}%d "                            "{e}";
 const char HTTP_SNS_FLAMESTATE[]    PROGMEM = "{s}%s "  D_FLAMESTATE          "{m}%d "                            "{e}";
+const char HTTP_SNS_FUEL_MILEAGE[]  PROGMEM = "{s}%s "  D_FUEL_MILEAGE        "{m}%d " D_UNIT_SECOND              "{e}";
 #endif  // USE_WEBSERVER
 
 #endif  // _I18N_H_

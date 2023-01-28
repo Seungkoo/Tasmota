@@ -2,8 +2,7 @@
 # DEPRECATED
 # Legacy Tuya attributes from before Zigbee Device plugins
 # Use only if you need to legacy behavior, prefer device specific
-:                                   # apply to all devices
+: TS0601,_TZE200_7bztmfm1                                  # apply to Tuya CO Detector
 EF00/0202,Concentration
 EF00/0401,CoState
-EF00/0104,TemperAlarm
 

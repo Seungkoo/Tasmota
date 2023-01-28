@@ -105,7 +105,7 @@ const char kTuyaSensors[] PROGMEM = // List of available sensors (can be expande
   "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_FUELLEVEL "|TimeSet|" D_JSON_HEATER_STATE
 //         76            77             78              79                      80                     81     82     83     84
 //  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|TImer1|D_JSON_TEMPERATURE2|D_JSON_TEMPERATURE3|D_JSON_TEMPERATURE4";
- "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|" D_JSON_TEMPERATURE2 "|" D_JSON_TEMPERATURE3 "|" D_JSON_TEMPERATURE4 "|" D_JSON_FLAME_STATE;
+ "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|" D_JSON_TEMPERATURE2 "|" D_JSON_TEMPERATURE3 "|" D_JSON_FUEL_MILEAGE "|" D_JSON_FLAME_STATE;
 const char kTuyaCommand[] PROGMEM = D_PRFX_TUYA "|"  // Prefix
   D_CMND_TUYA_MCU "|" D_CMND_TUYA_MCU_SEND_STATE "|" D_CMND_TUYARGB "|" D_CMND_TUYA_ENUM "|" D_CMND_TUYA_ENUM_LIST "|TempSetRes";
 
@@ -882,7 +882,7 @@ void TuyaProcessStatePacket(void) {
             if (fnId > 80 || fnId == 74 || fnId == 72) {
               dont_publish = false;
             }
-            if (fnId > 84){
+            if (fnId > 83){
               res = 0;
             } else if (fnId > 81) {
               res = Settings->flag2.temperature_resolution;  //temp2, temp3, temp4
@@ -1167,9 +1167,10 @@ bool TuyaModuleSelected(void) {
   TuyaAddMcuFunc(75,11); 
   TuyaAddMcuFunc(76,21);
   TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP2,104); 
-  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP3,105);
-  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP4,106); 
+
+  //TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP4,106); 
   TuyaAddMcuFunc(TUYA_MCU_FUNC_FLAME_STATE,22); 
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_FUEL_MILEAGE,23);
   Settings->tuyamcu_topic = true;
   Settings->flag2.temperature_resolution = 1;
   //---------------------------------------------------------
@@ -1470,7 +1471,7 @@ void TuyaSensorsShow(bool json)
         if (added) {
           ResponseAppend_P(PSTR(","));
         }
-        if (sensor > 84){
+        if (sensor > 83){
           res = 0 ;
         } else if(sensor > 81){
           res = Settings->flag2.temperature_resolution;
@@ -1494,7 +1495,7 @@ void TuyaSensorsShow(bool json)
       if (TuyaGetDpId(sensor) != 0) {
         switch (sensor) {
           case 71:
-            WSContentSend_Temp("주변", TuyaAdjustedTemperature(Tuya.Sensors[0], Settings->flag2.temperature_resolution));
+            WSContentSend_Temp("외부", TuyaAdjustedTemperature(Tuya.Sensors[0], Settings->flag2.temperature_resolution));
             break;
           case 72:
             WSContentSend_PD(PSTR("{s}" D_TEMPERATURE " Set{m}%s " D_UNIT_DEGREE "%c{e}"),
@@ -1529,8 +1530,10 @@ void TuyaSensorsShow(bool json)
             break;
           case 82:
           case 83:
-          case 84:
             WSContentSend_Temp("내부", TuyaAdjustedTemperature(Tuya.Sensors[sensor-71], Settings->flag2.temperature_resolution));
+            break;
+          case 84:
+            WSContentSend_PD(HTTP_SNS_FUEL_MILEAGE, "", Tuya.Sensors[sensor-71]);
             break;
           case 85:
             WSContentSend_PD(HTTP_SNS_FLAMESTATE, "", Tuya.Sensors[sensor-71]);
