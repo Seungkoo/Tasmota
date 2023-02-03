@@ -193,7 +193,7 @@
 // SEQ Heater 
 #define D_JSON_TEMPERATURE2 "Temperature2"
 #define D_JSON_TEMPERATURE3 "Temperature3"
-#define D_JSON_FUEL_MILEAGE "Fule Mileage"
+#define D_JSON_FUEL_MILEAGE "Fuel Mileage"
 // End of SEQ Heater 
 #define D_JSON_TEMPERATURE_UNIT "TempUnit"
 #define D_JSON_TIME "Time"

@@ -151,7 +151,7 @@
 #define PUB_PREFIX2            "tele"            // [Prefix3] Tasmota devices publish telemetry data to %prefix%/%topic% being PUB_PREFIX2/MQTT_TOPIC/UPTIME, POWER and TIME
                                                  //   May be named the same as PUB_PREFIX
 // %topic% token options (also ButtonTopic and SwitchTopic)
-#define MQTT_TOPIC             PROJECT "_%06X"   // [Topic] unique MQTT device topic including (part of) device MAC address
+#define MQTT_TOPIC             "heater_%06X"   // [Topic] unique MQTT device topic including (part of) device MAC address
 //#define MQTT_GRPTOPIC          "tasmotas"        // [GroupTopic] MQTT Group topic
 #define MQTT_GRPTOPIC          "seqblowers"        // [GroupTopic] MQTT Group topic
 #define MQTT_GROUPTOPIC_FORMAT false             // [SetOption75] GroupTopic replaces %topic% (false) or fixed topic cmnd/grouptopic (true)

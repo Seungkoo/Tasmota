@@ -876,9 +876,9 @@ void TuyaProcessStatePacket(void) {
           uint8_t res;
           bool dont_publish = Settings->flag5.tuyasns_no_immediate;
 
-          if (TasmotaGlobal.uptime < 8) { // delay to avoid multiple topics at the same time at boot time
-            return;
-          } else {
+          //if (TasmotaGlobal.uptime < 8) { // delay to avoid multiple topics at the same time at boot time
+          //  return;
+          //} else {
             if (fnId > 80 || fnId == 74 || fnId == 72) {
               dont_publish = false;
             }
@@ -904,7 +904,7 @@ void TuyaProcessStatePacket(void) {
               sprintf_P(devicename, PSTR( "%s/" D_CMND_SENSOR), SettingsText(SET_DEVICENAME));
               MqttPublishPrefixTopicRulesProcess_P(TELE, devicename);
             }
-          }
+          //}
         }
 
         if (fnId == TUYA_MCU_FUNC_DIMMER || fnId == TUYA_MCU_FUNC_REPORT1) { dimIndex = 0; }
