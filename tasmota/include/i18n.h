@@ -105,6 +105,7 @@
 #define D_JSON_HEATER_STATE "Heater State"          //SEQ Heater Power State
 #define D_JSON_HEATER_ERROR "Heater Error"          //SEQ Heater Error Code
 #define D_JSON_FLAME_STATE  "Flame Detector"        //SEQ Heater Flame Detector State
+#define D_JSON_OPMODE     "Operation Mode"
 // End of SEQ Heater
 #define D_JSON_I2CSCAN_DEVICES_FOUND_AT "Device(s) found at"
 #define D_JSON_I2CSCAN_UNKNOWN_ERROR_AT "Unknown error at"
@@ -193,7 +194,8 @@
 // SEQ Heater 
 #define D_JSON_TEMPERATURE2 "Temperature2"
 #define D_JSON_TEMPERATURE3 "Temperature3"
-#define D_JSON_FUEL_MILEAGE "Fuel Mileage"
+#define D_JSON_FUEL_MILEAGE "FuelMileage"
+
 // End of SEQ Heater 
 #define D_JSON_TEMPERATURE_UNIT "TempUnit"
 #define D_JSON_TIME "Time"
@@ -932,6 +934,7 @@ const char HTTP_SNS_HEATERSTATE[]   PROGMEM = "{s}%s "  D_HEATERSTATE         "{
 const char HTTP_SNS_HEATERERROR[]   PROGMEM = "{s}%s "  D_HEATERERROR         "{m}%d "                            "{e}";
 const char HTTP_SNS_FLAMESTATE[]    PROGMEM = "{s}%s "  D_FLAMESTATE          "{m}%d "                            "{e}";
 const char HTTP_SNS_FUEL_MILEAGE[]  PROGMEM = "{s}%s "  D_FUEL_MILEAGE        "{m}%d " D_UNIT_SECOND              "{e}";
+const char HTTP_SNS_OPMODE[]        PROGMEM = "{s}%s "  D_OPMODE              "{m}%d "                            "{e}";
 #endif  // USE_WEBSERVER
 
 #endif  // _I18N_H_

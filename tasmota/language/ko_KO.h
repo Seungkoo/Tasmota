@@ -110,6 +110,7 @@
 #define D_FLAMESTATE  "불꽃감지"
 #define D_FUELLEVEL "잔여연료량"
 #define D_FUEL_MILEAGE "총연료소비시간"
+#define D_OPMODE  "운전모드"
 #define D_GAS "가스"
 #define D_GATEWAY "게이트웨이"
 #define D_GROUP "그룹"

@@ -6,3 +6,18 @@
 EF00/0202,Concentration
 EF00/0401,CoState
 
+#ANKA CO Concetration Sensor
+:gg3bqbm,_TYST11_0gg3bqbm
+EF00/0401,CoState
+EF00/0202,Concentration
+EF00/040B,FaultState
+EF00/040E,BatteryState
+
+#ANKA Smoke Sensor
+:TS0601,_TZE200_mimdrg5y
+EF00/0401,SmokeState
+EF00/0108,SelfCheck
+EF00/0409,CheckResult
+EF00/040E,BatteryState
+EF00/0110,Silence
+EF00/0465,SensorState

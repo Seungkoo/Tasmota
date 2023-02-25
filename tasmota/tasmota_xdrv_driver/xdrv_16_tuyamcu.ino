@@ -104,8 +104,8 @@ const char kTuyaSensors[] PROGMEM = // List of available sensors (can be expande
 //          71              72          73-fuellevel    74            75
   "" D_JSON_TEMPERATURE "|TempSet|" D_JSON_FUELLEVEL "|TimeSet|" D_JSON_HEATER_STATE
 //         76            77             78              79                      80                     81     82     83     84
-//  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|TImer1|D_JSON_TEMPERATURE2|D_JSON_TEMPERATURE3|D_JSON_TEMPERATURE4";
- "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|Timer1|" D_JSON_TEMPERATURE2 "|" D_JSON_TEMPERATURE3 "|" D_JSON_FUEL_MILEAGE "|" D_JSON_FLAME_STATE;
+//  "|" D_JSON_TVOC "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|D_JSON_OPMODE|D_JSON_TEMPERATURE2|D_JSON_TEMPERATURE3|D_JSON_TEMPERATURE4";
+ "|" D_JSON_HEATER_ERROR "|" D_JSON_ECO2 "|" D_JSON_CO2 "|" D_JSON_GAS "|" D_ENVIRONMENTAL_CONCENTRATION "|" D_JSON_OPMODE "|" D_JSON_TEMPERATURE2 "|" D_JSON_TEMPERATURE3 "|" D_JSON_FUEL_MILEAGE "|" D_JSON_FLAME_STATE;
 const char kTuyaCommand[] PROGMEM = D_PRFX_TUYA "|"  // Prefix
   D_CMND_TUYA_MCU "|" D_CMND_TUYA_MCU_SEND_STATE "|" D_CMND_TUYARGB "|" D_CMND_TUYA_ENUM "|" D_CMND_TUYA_ENUM_LIST "|TempSetRes";
 
@@ -432,7 +432,7 @@ inline bool TuyaFuncIdValid(uint8_t fnId) {
           (fnId == TUYA_MCU_FUNC_LOWPOWER_MODE) ||
           (fnId >= TUYA_MCU_FUNC_TEMP && fnId <= TUYA_MCU_FUNC_HUMSET) ||
           (fnId >= TUYA_MCU_FUNC_LX && fnId <= TUYA_MCU_FUNC_PM25) ||
-          (fnId >= TUYA_MCU_FUNC_TIMER1 && fnId <= TUYA_MCU_FUNC_FLAME_STATE);
+          (fnId >= TUYA_MCU_FUNC_OPMODE && fnId <= TUYA_MCU_FUNC_FLAME_STATE);
 }
 uint8_t TuyaGetFuncId(uint8_t dpid) {
   for (uint8_t i = 0; i < MAX_TUYA_FUNCTIONS; i++) {
@@ -1160,8 +1160,8 @@ bool TuyaModuleSelected(void) {
   //SEQ Heater initialize 1. Default Fuction mapping 2. MQTT topic Enable ----------------------------------------------------------------------
   TuyaAddMcuFunc(11,1); 
   TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMP,3); 
-  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMPSET,2); 
-  TuyaAddMcuFunc(12,4); 
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_TEMPSET,2);  
+  TuyaAddMcuFunc(TUYA_MCU_FUNC_OPMODE,4); 
   TuyaAddMcuFunc(TUYA_MCU_FUNC_HUM,102);      //Fuel Level
   TuyaAddMcuFunc(TUYA_MCU_FUNC_HUMSET,101);   //Time Set
   TuyaAddMcuFunc(75,11); 
@@ -1526,7 +1526,8 @@ void TuyaSensorsShow(bool json)
             WSContentSend_PD(PSTR("{s}" D_ENVIRONMENTAL_CONCENTRATION " 2.5 " D_UNIT_MICROMETER "{m}%d " D_UNIT_MICROGRAM_PER_CUBIC_METER "{e}"), Tuya.Sensors[9]);
             break;
           case 81:
-            WSContentSend_PD(PSTR("{s}Timer%d{m}%d{e}"), (sensor-80), Tuya.Sensors[sensor-71]); // No UoM for timers since they can be sec or min
+            WSContentSend_PD(HTTP_SNS_OPMODE, "", Tuya.Sensors[sensor-71]);  //Change to Operation Mode
+           // WSContentSend_PD(PSTR("{s}Timer%d{m}%d{e}"), (sensor-80), Tuya.Sensors[sensor-71]); // No UoM for timers since they can be sec or min
             break;
           case 82:
           case 83:
